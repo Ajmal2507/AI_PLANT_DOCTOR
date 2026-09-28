@@ -36,7 +36,7 @@ function ResultPage() {
       link.download = `${result.plant_name}_${result.disease_name}_report.pdf`
       link.click()
       URL.revokeObjectURL(url)
-      toast.success('PDF downloaded successfully! 📄')
+      toast.success('PDF downloaded successfully.')
     } catch {
       toast.error('Failed to download PDF. Please try again.')
     } finally {
@@ -48,7 +48,7 @@ function ResultPage() {
     return (
       <div className="page-container d-flex justify-content-center align-items-center">
         <div className="text-center">
-          <div className="leaf-spinner">🌿</div>
+          <div className="spinner-border text-secondary"></div>
           <p className="mt-3" style={{ color: 'var(--text-secondary)' }}>Loading result...</p>
         </div>
       </div>
@@ -58,6 +58,27 @@ function ResultPage() {
   if (!result) return null
 
   const isHealthy = result.is_healthy
+  
+  const renderContent = (text) => {
+    if (!text) return null;
+    let items = text.split('\n').map(l => l.trim()).filter(Boolean);
+    
+    if (items.length <= 1) {
+      items = text.split('.').map(s => s.trim()).filter(Boolean).map(s => s + '.');
+    }
+
+    if (items.length > 1) {
+      return (
+        <ul style={{ margin: 0, paddingLeft: '20px' }}>
+          {items.map((item, idx) => {
+            const cleanItem = item.replace(/^[-*•\d\.]+\s*/, '');
+            return <li key={idx} style={{ marginBottom: '6px' }}>{cleanItem}</li>;
+          })}
+        </ul>
+      );
+    }
+    return <p style={{ margin: 0 }}>{text}</p>;
+  };
 
   return (
     <div className="page-container" style={{ background: 'var(--bg-primary)', padding: '100px 0 60px' }}>
@@ -90,8 +111,8 @@ function ResultPage() {
               <div className={result.image ? 'col-md-8' : 'col-12'}>
                 <div className="mb-2">
                   {isHealthy
-                    ? <span className="badge-healthy">✅ Healthy Plant</span>
-                    : <span className="badge-diseased">⚠️ Disease Detected</span>
+                    ? <span className="badge-healthy">Healthy Plant</span>
+                    : <span className="badge-diseased">Disease Detected</span>
                   }
                 </div>
                 <h2 style={{ fontWeight: 800, fontSize: '1.6rem', marginBottom: '4px' }}>
@@ -106,7 +127,7 @@ function ResultPage() {
                 </p>
                 <div>
                   <div className="d-flex justify-content-between" style={{ fontSize: '0.85rem' }}>
-                    <span style={{ color: 'var(--text-secondary)' }}>AI Confidence</span>
+                    <span style={{ color: 'var(--text-secondary)' }}>Confidence</span>
                     <span style={{ color: 'var(--color-accent)', fontWeight: 700 }}>
                       {result.confidence.toFixed(1)}%
                     </span>
@@ -119,27 +140,25 @@ function ResultPage() {
             </div>
           </div>
           {[
-            { icon: '📋', title: isHealthy ? 'Health Status' : 'Disease Description', content: result.description },
-            { icon: '🔬', title: isHealthy ? 'Growth Factors' : 'Causes', content: result.causes },
-            { icon: '👁️', title: isHealthy ? 'Healthy Signs' : 'Symptoms', content: result.symptoms },
-            { icon: '🌱', title: isHealthy ? 'Organic Care & Growth Boosters' : 'Natural Remedies', content: result.natural_remedies },
-            { icon: '💊', title: isHealthy ? 'Nutrients & Maintenance' : 'Chemical Remedies', content: result.chemical_remedies },
-            { icon: '🛡️', title: isHealthy ? 'Protection & Prevention' : 'Prevention Tips', content: result.prevention },
+            { icon: '', title: isHealthy ? 'Health Status' : 'Disease Description', content: result.description },
+            { icon: '', title: isHealthy ? 'Growth Factors' : 'Causes', content: result.causes },
+            { icon: '', title: isHealthy ? 'Healthy Signs' : 'Symptoms', content: result.symptoms },
+            { icon: '', title: isHealthy ? 'Organic Care & Growth Boosters' : 'Natural Remedies', content: result.natural_remedies },
+            { icon: '', title: isHealthy ? 'Nutrients & Maintenance' : 'Chemical Remedies', content: result.chemical_remedies },
+            { icon: '', title: isHealthy ? 'Protection & Prevention' : 'Prevention Tips', content: result.prevention },
           ].map((section) => (
             section.content && (
               <div key={section.title} className="app-card mt-3 fade-in">
                 <h5 style={{ fontWeight: 700, marginBottom: '10px' }}>
                   {section.icon} {section.title}
                 </h5>
-                <p style={{
+                <div style={{
                   color: 'var(--text-secondary)',
                   lineHeight: 1.8,
-                  margin: 0,
-                  fontSize: '0.95rem',
-                  whiteSpace: 'pre-wrap',
+                  fontSize: '0.95rem'
                 }}>
-                  {section.content}
-                </p>
+                  {renderContent(section.content)}
+                </div>
               </div>
             )
           ))}

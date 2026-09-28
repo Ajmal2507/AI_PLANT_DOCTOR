@@ -31,7 +31,7 @@ function AuthPage() {
       }
       const { user, tokens, message } = res.data
       login(user, tokens)
-      toast.success(message || 'Welcome to AI Crop Doctor! 🌿')
+      toast.success(message || 'Welcome to Plant Disease Detection.')
       navigate('/')
     } catch (error) {
       const data = error.response?.data
@@ -51,12 +51,12 @@ function AuthPage() {
       <div style={{ width: '100%', maxWidth: '420px' }}>
 
         <div className="text-center mb-4">
-          <Link to="/" style={{ textDecoration: 'none', fontSize: '2.5rem' }}>🌿</Link>
+          <Link to="/" style={{ textDecoration: 'none', fontSize: '1.5rem', fontWeight: 600, color: 'var(--text-primary)' }}>Plant Disease Detection</Link>
           <h1 style={{ fontSize: '1.8rem', fontWeight: 800, marginTop: '8px' }}>
             {mode === 'login' ? 'Welcome Back' : 'Create Account'}
           </h1>
           <p style={{ color: 'var(--text-secondary)', marginTop: '6px' }}>
-            {mode === 'login' ? 'Login to access your plant analyses' : 'Join thousands of farmers using AI'}
+            {mode === 'login' ? 'Login to access your plant analyses' : 'Join thousands of farmers'}
           </p>
         </div>
 

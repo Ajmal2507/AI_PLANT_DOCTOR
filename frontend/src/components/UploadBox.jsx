@@ -43,8 +43,8 @@ function UploadBox({ onFileSelect, previewUrl, selectedFile, isDragOver, setIsDr
         </div>
       ) : (
         <>
-          <div style={{ fontSize: '4rem', marginBottom: '12px' }}>
-            {isDragOver ? '📂' : '🌿'}
+          <div style={{ marginBottom: '12px' }}>
+            <i className={isDragOver ? 'bi bi-upload' : 'bi bi-image'} style={{ fontSize: '3rem', color: 'var(--text-muted)' }}></i>
           </div>
           <h5 style={{ fontWeight: 700, marginBottom: '8px' }}>
             {isDragOver ? 'Drop it here!' : 'Drag & Drop or Click to Upload'}

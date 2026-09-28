@@ -37,7 +37,7 @@ function ProfilePage() {
     setSaving(true)
     try {
       await authAPI.updateProfile(formData)
-      toast.success('Profile updated successfully! ✅')
+      toast.success('Profile updated successfully.')
     } catch {
       toast.error('Failed to update profile.')
     } finally {
@@ -48,7 +48,7 @@ function ProfilePage() {
   if (loading) {
     return (
       <div className="page-container d-flex justify-content-center align-items-center">
-        <div className="leaf-spinner">🌿</div>
+        <div className="spinner-border text-secondary"></div>
       </div>
     )
   }
@@ -58,7 +58,7 @@ function ProfilePage() {
       <div className="container">
         <div style={{ maxWidth: '600px', margin: '0 auto' }}>
           <h1 style={{ fontSize: '2rem', fontWeight: 800, marginBottom: '24px' }}>
-            My Profile 👤
+            My Profile
           </h1>
           <div className="app-card mb-4">
             <div className="d-flex align-items-center gap-4">
@@ -66,7 +66,7 @@ function ProfilePage() {
                 width: '80px',
                 height: '80px',
                 borderRadius: '50%',
-                background: 'linear-gradient(135deg, #2d7a3a, #4caf63)',
+                background: 'var(--color-primary)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',

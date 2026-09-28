@@ -1,33 +1,33 @@
-# AI Plant Doctor 🌿
-### AI-Powered Plant Disease Detection & Advisory System
+# Plant Disease Detection System
+### Advanced AI-Powered Plant Disease Detection & Advisory Platform
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 Plant_disease/
 ├── backend/              ← Django REST API
 │   ├── core/             ← Project settings, URLs
 │   ├── accounts/         ← Register, Login, Profile
-│   ├── detection/        ← AI image analysis (Groq)
+│   ├── detection/        ← AI image analysis inference
 │   ├── history/          ← View/delete past analyses
-│   ├── reports/          ← PDF generation
-│   ├── dashboard/        ← Stats & chart data
+│   ├── reports/          ← PDF report generation
+│   ├── dashboard/        ← Statistics & chart endpoints
 │   ├── media/            ← Uploaded images (auto-created)
 │   ├── manage.py
 │   ├── requirements.txt
-│   └── .env              ← Your secret keys (fill this in!)
+│   └── .env              ← Environment variables
 │
-└── frontend/             ← React + Vite app
+└── frontend/             ← React + Vite application
     ├── src/
-    │   ├── pages/        ← HomePage, AuthPage, DashboardPage, etc.
-    │   ├── components/   ← Navbar, ProtectedRoute
-    │   ├── services/     ← api.js (all API calls)
-    │   ├── context/      ← AuthContext.jsx (login state)
-    │   ├── App.jsx       ← Routes
+    │   ├── pages/        ← HomePage, AuthPage, ResultPage, etc.
+    │   ├── components/   ← Shared UI components
+    │   ├── services/     ← api.js (Axios API client)
+    │   ├── context/      ← AuthContext.jsx (Authentication state)
+    │   ├── App.jsx       ← Application routing
     │   ├── main.jsx      ← React entry point
-    │   └── index.css     ← Global styles
+    │   └── index.css     ← Global styles and CSS variables
     ├── index.html
     ├── package.json
     └── vite.config.js
@@ -35,19 +35,19 @@ Plant_disease/
 
 ---
 
-## 🚀 Setup Instructions
+## Setup Instructions
 
-### Step 1: Set Up MySQL Database
+### Step 1: Database Initialization
 
-Open MySQL and run:
+Open your MySQL console and execute:
 ```sql
 CREATE DATABASE plant_disease_db;
 ```
 
-### Step 2: Configure `.env` file
+### Step 2: Environment Configuration
 
-Edit `backend/.env` and fill in your values:
-```
+Edit `backend/.env` and supply the required configuration values:
+```env
 SECRET_KEY=your-random-secret-key
 DEBUG=True
 DB_NAME=plant_disease_db
@@ -58,124 +58,117 @@ DB_PORT=3306
 GROQ_API_KEY=your_groq_api_key_here
 ```
 
-Get your free Groq API key at: https://console.groq.com
+*Note: You can acquire an API key from the Groq Developer Console.*
 
-### Step 3: Set Up Python Backend
+### Step 3: Backend Setup (Django)
 
 ```bash
-# Go to the backend folder
+# Navigate to the backend directory
 cd backend
 
-# Create a virtual environment (keeps packages isolated)
+# Initialize a virtual environment
 python -m venv venv
 
-# Activate it
-# On Windows:
+# Activate the virtual environment
+# Windows:
 venv\Scripts\activate
-# On Mac/Linux:
+# macOS/Linux:
 source venv/bin/activate
 
-# Install all packages
+# Install Python dependencies
 pip install -r requirements.txt
 
-# Create database tables from our models
+# Execute database migrations
 python manage.py makemigrations
 python manage.py migrate
 
-# Create an admin user (optional)
+# Create a superuser account (optional)
 python manage.py createsuperuser
 
-# Start the Django server
+# Start the Django development server
 python manage.py runserver
 ```
 
-Django will run at: http://localhost:8000
+The Django API will be accessible at: `http://localhost:8000`
 
-### Step 4: Set Up React Frontend
+### Step 4: Frontend Setup (React)
 
 ```bash
-# Go to the frontend folder (new terminal window)
+# Navigate to the frontend directory
 cd frontend
 
-# Install Node.js packages
+# Install Node.js dependencies
 npm install
 
-# Start the React development server
+# Start the Vite development server
 npm run dev
 ```
 
-React will run at: http://localhost:5173
-
-### Step 5: Open the App
-
-Go to **http://localhost:5173** in your browser.
+The React application will be accessible at: `http://localhost:5173`
 
 ---
 
-## 🧠 How the AI Works
+## System Architecture & Workflow
 
-```
-1. User uploads leaf image
-         ↓
-2. Django saves image to disk
-         ↓
-3. Groq Vision AI (Llama Vision)
-   → Identifies plant + disease + confidence
-         ↓
-4. Groq Chat AI (Llama 4)
-   → Generates: description, causes, symptoms,
-                natural remedies, chemical remedies, prevention
-         ↓
-5. Results saved to MySQL
-         ↓
-6. Frontend displays full report
-         ↓
-7. User can download PDF report
+```text
+1. Image Upload
+   → Client uploads a plant image via the React interface.
+2. Image Processing
+   → Django processes and stores the image in the local media directory.
+3. Vision Inference
+   → The image is analyzed by the visual inference model to identify the plant species and detect anomalies/diseases.
+4. Advisory Generation
+   → A secondary language model generates structured advisory data including descriptions, causes, symptoms, natural/chemical remedies, and prevention strategies.
+5. Data Persistence
+   → The structured results and associated metadata are stored in the MySQL database.
+6. Client Presentation
+   → The React frontend retrieves the data and presents a structured report to the user.
+7. Report Generation
+   → Users can export the complete diagnostic report as a PDF via the ReportLab integration.
 ```
 
 ---
 
-## 📡 API Endpoints
+## API Endpoints
 
-| Method | URL | What it does |
-|--------|-----|-------------|
-| POST | `/api/auth/register/` | Create account |
-| POST | `/api/auth/login/` | Login, get JWT tokens |
-| POST | `/api/auth/logout/` | Logout |
-| GET/PUT | `/api/auth/profile/` | View/update profile |
-| POST | `/api/detection/analyze/` | Upload image + get AI result |
-| GET | `/api/history/` | List all past analyses |
-| GET | `/api/history/<id>/` | Single analysis details |
-| DELETE | `/api/history/<id>/delete/` | Delete an analysis |
-| GET | `/api/reports/<id>/pdf/` | Download PDF report |
-| GET | `/api/dashboard/stats/` | Dashboard statistics |
-| GET | `/api/dashboard/charts/` | Chart data |
-| GET | `/api/dashboard/recent/` | Last 5 analyses |
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/api/auth/register/` | Account registration |
+| POST | `/api/auth/login/` | Authentication and JWT issuance |
+| POST | `/api/auth/logout/` | Terminate session |
+| GET/PUT | `/api/auth/profile/` | Retrieve or modify user profile |
+| POST | `/api/detection/analyze/` | Submit image for AI analysis |
+| GET | `/api/history/` | Retrieve paginated analysis history |
+| GET | `/api/history/<id>/` | Retrieve specific analysis details |
+| DELETE | `/api/history/<id>/delete/` | Delete an analysis record |
+| GET | `/api/reports/<id>/pdf/` | Generate and download PDF report |
+| GET | `/api/dashboard/stats/` | Retrieve aggregate statistics |
+| GET | `/api/dashboard/charts/` | Retrieve chart data metrics |
+| GET | `/api/dashboard/recent/` | Retrieve recent analyses |
 
 ---
 
-## 🛠️ Tech Stack
+## Technology Stack
 
 | Layer | Technology |
 |-------|-----------|
-| Frontend | React 18 + Vite |
-| Styling | Bootstrap 5 + Vanilla CSS |
-| Charts | Chart.js + react-chartjs-2 |
-| Backend | Django 4.2 + Django REST Framework |
-| Auth | JWT (djangorestframework-simplejwt) |
+| Frontend | React 18, Vite |
+| Styling | Bootstrap 5, Custom CSS |
+| Visualization | Chart.js, react-chartjs-2 |
+| Backend | Django 4.2, Django REST Framework |
+| Authentication | JSON Web Tokens (JWT) |
 | Database | MySQL |
-| AI Vision | Groq API (Llama Vision) |
-| AI Advisory | Groq API (Llama 4) |
-| PDF | ReportLab |
+| Inference Engine | Groq API |
+| Document Generation | ReportLab |
 
 ---
 
-## 🔑 Key Files to Understand
+## Core System Files
 
 | File | Purpose |
 |------|---------|
-| `backend/detection/groq_client.py` | All AI logic — image analysis + advisory |
-| `backend/core/settings.py` | Django configuration |
-| `frontend/src/services/api.js` | All frontend API calls |
-| `frontend/src/context/AuthContext.jsx` | Login state management |
-| `frontend/src/App.jsx` | Page routing |
+| `backend/detection/groq_client.py` | Core AI integration and prompt execution |
+| `backend/core/settings.py` | Application-wide Django configurations |
+| `frontend/src/services/api.js` | Axios instance and API call definitions |
+| `frontend/src/context/AuthContext.jsx` | React Context for session management |
+| `frontend/src/App.jsx` | Application router and layout definition |

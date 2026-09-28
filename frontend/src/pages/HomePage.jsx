@@ -7,18 +7,18 @@ import UploadBox from '../components/UploadBox'
 import ResultPanel from '../components/ResultPanel'
 
 const FEATURES = [
-  { icon: '👁️', title: 'Vision AI Detection',   desc: 'Upload a plant photo and Llama 4 Scout Vision instantly identifies the plant and any disease.', color: '#4caf63' },
-  { icon: '🧪', title: 'Expert AI Advisory',    desc: 'Get detailed causes, symptoms, natural and chemical remedies from the AI agricultural expert.', color: '#2196f3' },
-  { icon: '📄', title: 'PDF Reports',           desc: 'Download a formatted PDF report with the full diagnosis, remedies, and prevention tips.', color: '#ff9800' },
-  { icon: '📋', title: 'Account History',       desc: 'Every scan is saved to your account. Search and review all past plant analyses anytime.', color: '#9c27b0' },
-  { icon: '🔒', title: 'Secure & Private',      desc: 'JWT authentication ensures only you can see your analyses and history.', color: '#00bcd4' },
-  { icon: '⚡', title: 'Instant Results',       desc: 'Groq\'s ultra-fast inference gives you results in 15–30 seconds.', color: '#e91e63' },
+  { icon: 'i', title: 'Plant Disease Detection',   desc: 'Upload a plant photo and our system identifies the plant and any potential disease.', color: '#5c6b73' },
+  { icon: 'i', title: 'Expert Advisory',    desc: 'Get detailed causes, symptoms, natural and chemical remedies from our agricultural database.', color: '#7a8c96' },
+  { icon: 'i', title: 'PDF Reports',           desc: 'Download a formatted PDF report with the full diagnosis, remedies, and prevention tips.', color: '#93a1a1' },
+  { icon: 'i', title: 'Account History',       desc: 'Every scan is saved to your account. Search and review all past plant analyses anytime.', color: '#3d474d' },
+  { icon: 'i', title: 'Secure & Private',      desc: 'Authentication ensures only you can see your analyses and history.', color: '#6a8f6a' },
+  { icon: 'i', title: 'Fast Results',       desc: 'Our high-performance infrastructure delivers results in seconds.', color: '#c49a6c' },
 ]
 
 const STEPS = [
-  { step: '01', icon: '📸', title: 'Upload a Photo',  desc: 'Take a clear photo of the plant or affected area and upload it here.' },
-  { step: '02', icon: '🤖', title: 'AI Analyzes',     desc: 'Llama 4 Scout Vision auto-identifies the plant and detects any disease.' },
-  { step: '03', icon: '📋', title: 'Get Your Report', desc: 'Receive full advisory with remedies. Saved to your account history.' },
+  { step: '01', icon: 'i', title: 'Upload a Photo',  desc: 'Take a clear photo of the plant or affected area and upload it here.' },
+  { step: '02', icon: 'i', title: 'System Analyzes',     desc: 'Our system auto-identifies the plant and detects any disease.' },
+  { step: '03', icon: 'i', title: 'Get Your Report', desc: 'Receive full advisory with remedies. Saved to your account history.' },
 ]
 
 function HomePage() {
@@ -43,12 +43,12 @@ function HomePage() {
     if (!selectedFile) { toast.warning('Please select an image first'); return }
     setIsLoading(true)
     setResult(null)
-    toast.info('🤖 AI is analyzing your plant... 15–30 seconds.')
+    toast.info('Analyzing your plant image... Please wait.')
     try {
       const res        = await detectionAPI.analyzeImage(selectedFile)
       const resultRes  = await historyAPI.getById(res.data.result.id)
       setResult(resultRes.data)
-      toast.success('✅ Analysis complete!')
+      toast.success('Analysis complete.')
       setTimeout(() => resultRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 200)
     } catch (err) {
       toast.error(err.response?.data?.error || 'Analysis failed. Please try again.')
@@ -74,15 +74,15 @@ function HomePage() {
         <div className="container">
           <div className="text-center mb-5 fade-in">
             <div className="ai-badge mb-3">
-              🤖 Groq Vision AI — Instant Plant Disease Detection
+              Plant Disease Detection System
             </div>
             <h1 className="hero-title">
               Detect Plant Diseases{' '}
-              <span className="gradient-text">Instantly with AI</span>
+              <span className="gradient-text">Efficiently</span>
             </h1>
             <p className="hero-subtitle">
-              Upload a photo of your plant/crop and get an instant diagnosis powered by Llama 4 Scout Vision,
-              complete with expert remedies and prevention tips.
+              Upload a photo of your plant or crop and get a fast diagnosis,
+              complete with remedies and prevention tips.
             </p>
           </div>
 
@@ -91,7 +91,7 @@ function HomePage() {
               !result ? (
                 <div className="glass-card p-4 fade-in">
                   <h5 style={{ fontWeight: 700, marginBottom: '20px', textAlign: 'center' }}>
-                    📸 Upload Plant Photo to Analyze
+                    Upload Plant Photo to Analyze
                   </h5>
                   <UploadBox
                     onFileSelect={handleFileSelect}
@@ -102,7 +102,7 @@ function HomePage() {
                     isLoading={isLoading}
                   />
                   <div className="tips-box mt-3">
-                    💡 <strong style={{ color: 'var(--color-accent)' }}>Tips: </strong>
+                    <strong style={{ color: 'var(--text-primary)' }}>Tips: </strong>
                     Good lighting · Focus on affected area · Include spots/discoloration
                   </div>
                   <button
@@ -114,8 +114,8 @@ function HomePage() {
                   >
                     {isLoading ? (
                       <div className="d-flex align-items-center justify-content-center gap-3">
-                        <span className="leaf-spinner" style={{ fontSize: '1.4rem' }}>🌿</span>
-                        <span>AI is analyzing your plant...</span>
+                        <span className="leaf-spinner" style={{ fontSize: '1.4rem' }}>...</span>
+                        <span>Analyzing your plant...</span>
                       </div>
                     ) : (
                       <><i className="bi bi-cpu me-2"></i>Detect Disease</>
@@ -123,7 +123,7 @@ function HomePage() {
                   </button>
                   {isLoading && (
                     <p className="text-center mt-3" style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>
-                      Vision AI + Advisory Engine processing (15–30 seconds)
+                      Processing...
                     </p>
                   )}
                 </div>
@@ -134,11 +134,10 @@ function HomePage() {
               )
             ) : (
               <div className="glass-card p-5 text-center fade-in">
-                <div style={{ fontSize: '4rem', marginBottom: '16px' }}>🌿</div>
                 <h3 style={{ fontWeight: 800, marginBottom: '12px' }}>Start Detecting Plant Diseases</h3>
                 <p style={{ color: 'var(--text-secondary)', lineHeight: 1.8, marginBottom: '28px' }}>
-                  Create a free account to upload plant images and get instant AI-powered disease detection,
-                  expert remedies, and save all your analyses to your personal history.
+                  Create a free account to upload plant images and get disease detection,
+                  remedies, and save all your analyses to your personal history.
                 </p>
                 <div className="d-flex gap-3 justify-content-center flex-wrap">
                   <Link to="/auth" className="btn-green" id="hero-login-button"
@@ -151,7 +150,7 @@ function HomePage() {
                   </Link>
                 </div>
                 <div className="trust-indicators mt-4">
-                  {[{ icon: '🌱', text: 'Vision AI' }, { icon: '⚡', text: 'Instant' }, { icon: '📄', text: 'PDF Reports' }, { icon: '🔒', text: 'Private' }].map(i => (
+                  {[{ icon: '', text: 'Advanced Detection' }, { icon: '', text: 'Fast' }, { icon: '', text: 'PDF Reports' }, { icon: '', text: 'Private' }].map(i => (
                     <div key={i.text} className="d-flex align-items-center gap-1"
                       style={{ color: 'var(--text-secondary)', fontSize: '0.85rem' }}>
                       <span>{i.icon}</span><span>{i.text}</span>
@@ -171,7 +170,7 @@ function HomePage() {
               Everything You Need to <span className="gradient-text">Protect Your Crops</span>
             </h2>
             <p style={{ color: 'var(--text-secondary)', fontSize: '1.05rem', marginTop: '1rem' }}>
-              Powered by Groq · Llama 4 Scout Vision
+              Advanced detection system
             </p>
           </div>
           <div className="row g-4">
@@ -210,11 +209,11 @@ function HomePage() {
             {user ? (
               <button className="btn-green" style={{ fontSize: '1.05rem', padding: '14px 40px' }}
                 onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-                Start Analyzing Now 🚀
+                Start Analyzing Now
               </button>
             ) : (
               <Link to="/auth" className="btn-green" style={{ fontSize: '1.05rem', padding: '14px 40px' }}>
-                Get Started Free 🚀
+                Get Started Free
               </Link>
             )}
           </div>

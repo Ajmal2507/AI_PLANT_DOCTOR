@@ -36,8 +36,7 @@ function Navbar() {
       <div className="container">
 
         <Link className="navbar-brand d-flex align-items-center gap-2" to="/">
-          <span style={{ fontSize: '1.5rem' }}>🌿</span>
-          <span className="brand-text">AI Plant Doctor</span>
+          <span className="brand-text">Plant Disease Detection</span>
         </Link>
 
         <button

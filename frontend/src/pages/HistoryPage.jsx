@@ -50,7 +50,7 @@ function HistoryPage() {
 
         <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
           <div>
-            <h1 style={{ fontSize: '2rem', fontWeight: 800 }}>Analysis History 📋</h1>
+            <h1 style={{ fontSize: '2rem', fontWeight: 600 }}>Analysis History</h1>
             <p style={{ color: 'var(--text-secondary)', margin: 0 }}>All your past plant disease analyses</p>
           </div>
           <Link to="/" className="btn-green" id="new-analysis-button">
@@ -69,13 +69,13 @@ function HistoryPage() {
 
         {loading ? (
           <div className="text-center py-5">
-            <div className="leaf-spinner">🌿</div>
+            <div className="spinner-border text-secondary"></div>
             <p className="mt-3" style={{ color: 'var(--text-secondary)' }}>Loading your history...</p>
           </div>
         ) : analyses.length === 0 ? (
           <div className="app-card text-center py-5">
-            <div style={{ fontSize: '3rem', marginBottom: '16px' }}>🌱</div>
-            <h4 style={{ fontWeight: 700 }}>{searchTerm ? 'No results found' : 'No analyses yet'}</h4>
+            <i className="bi bi-folder2-open" style={{ fontSize: '3rem', color: 'var(--text-muted)' }}></i>
+            <h4 style={{ fontWeight: 600, marginTop: '16px' }}>{searchTerm ? 'No results found' : 'No analyses yet'}</h4>
             <p style={{ color: 'var(--text-secondary)' }}>
               {searchTerm ? `No diseases match "${searchTerm}".` : 'Upload your first plant image to get started!'}
             </p>
@@ -94,8 +94,8 @@ function HistoryPage() {
                   )}
                   <div className="mb-2">
                     {item.is_healthy
-                      ? <span className="badge-healthy">✅ Healthy</span>
-                      : <span className="badge-diseased">⚠️ Diseased</span>
+                      ? <span className="badge-healthy">Healthy</span>
+                      : <span className="badge-diseased">Diseased</span>
                     }
                   </div>
                   <h6 style={{ fontWeight: 700, marginBottom: '4px' }}>{item.plant_name}</h6>
