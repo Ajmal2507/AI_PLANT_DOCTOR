@@ -6,7 +6,7 @@ from groq import Groq
 from django.conf import settings
 
 client = Groq(api_key=settings.GROQ_API_KEY)
-MODEL  = "meta-llama/llama-4-scout-17b-16e-instruct"
+MODEL  = "qwen/qwen3.8-27b"
 
 
 def encode_image(image_path):
