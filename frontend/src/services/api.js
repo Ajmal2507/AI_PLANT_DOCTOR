@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const api = axios.create({
-  baseURL: '/api',
+  baseURL: 'https://plant-disease-api-h3a3.onrender.com/api',
   headers: { 'Content-Type': 'application/json' },
 })
 
