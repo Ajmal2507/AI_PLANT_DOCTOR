@@ -2,7 +2,10 @@ django>=4.2
 djangorestframework
 djangorestframework-simplejwt
 django-cors-headers
-mysqlclient
+psycopg2-binary
+dj-database-url
+gunicorn
+whitenoise
 groq
 Pillow
 reportlab
